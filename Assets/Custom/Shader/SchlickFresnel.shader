@@ -65,9 +65,9 @@ Shader "Custom/SchlickFresnel"
                 fixed3 ambient =UNITY_LIGHTMODEL_AMBIENT.xyz;
                 fixed3 diffuse = _LightColor0.rgb *_Color.rgb*max(0,dot(worldNormal,worldLightDir));
                 fixed3 reflection = texCUBE(_Cubemap,i.worldRefl).rgb;
-                float fresnel=_FresnelScale+(1-_FresnelScale)*pow(1-(worldViewDir,worldNormal),5);
+                float fresnel=_FresnelScale+(1-_FresnelScale)*pow(1-dot(worldViewDir,worldNormal),5);
                 UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);
-                fixed3 color=ambient+lerp(diffuse,reflection,fresnel)*atten;
+                fixed3 color=ambient+lerp(diffuse,reflection,saturate(fresnel))*atten;
                 return fixed4(color,1.0);
             }
             ENDCG
