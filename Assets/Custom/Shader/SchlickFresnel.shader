@@ -51,7 +51,6 @@ Shader "Custom/SchlickFresnel"
                 o.worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;
                 o.worldViewDir = UnityWorldSpaceViewDir(o.worldPos) ;
                 o.worldRefl = reflect(-o.worldViewDir,o.worldNormal);
-                //将阴影坐标传递给片元着色器
                 TRANSFER_SHADOW(o);
                 return o;
             }
@@ -59,7 +58,6 @@ Shader "Custom/SchlickFresnel"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed3 worldNormal = normalize(i.worldNormal);
-                //fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
                 fixed3 worldLightDir=normalize(UnityWorldSpaceLightDir(i.worldPos));
                 fixed3 worldViewDir=normalize(i.worldViewDir);
                 fixed3 ambient =UNITY_LIGHTMODEL_AMBIENT.xyz;
